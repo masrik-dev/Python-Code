@@ -35,3 +35,4 @@ for k,v in counts.items():
     lst = sorted(l)
 for k,v in lst:
     print("The hour: ", k, "The number of times: ", v)
+print("Total number of email hours: ",len(lst))
