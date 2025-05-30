@@ -23,7 +23,8 @@ ctx.verify_mode = ssl.CERT_NONE
 
 while True:
     address = input('Enter location: ')
-    if len(address) < 1: break
+    if len(address) < 1: 
+        break
 
     parms = dict()
     parms['address'] = address
