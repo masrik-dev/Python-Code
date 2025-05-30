@@ -1,3 +1,6 @@
+# please check the code in source
+# also, find out what should be input url when the code executed
+
 import json
 import urllib.request, urllib.parse, urllib.error
 import xml.etree.ElementTree as ET
