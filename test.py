@@ -20,3 +20,13 @@ def calculate_homework(homework_assignments_arg):
 
 
 calculate_homework(homework_assignment_grades)
+
+# Find highest and lowest grades
+def find_highest_lowest(homework_assignments_arg):
+    highest_grade = max(homework_assignments_arg.values())
+    lowest_grade = min(homework_assignments_arg.values())
+
+    print(f"Highest Grade: {highest_grade}")
+    print(f"Lowest Grade: {lowest_grade}")
+
+find_highest_lowest(homework_assignment_grades)
