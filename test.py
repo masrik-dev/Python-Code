@@ -31,6 +31,8 @@ def find_highest_lowest(homework_assignments_arg):
 
 find_highest_lowest(homework_assignment_grades)
 
+print("__________ New test code for 20 student's grade __________")
+
 import random
 student_grades = {}
 
