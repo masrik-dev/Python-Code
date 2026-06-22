@@ -55,7 +55,19 @@ def generate_report(statuses: List[CarStatus]) -> Dict:
 
 
 def print_report(report: Dict) -> None:
-	print(json.dumps(report, indent=2))
+	print(f"Race Report — Total cars: {report.get('total_cars', 0)}")
+	print("-" * 40)
+	for c in report.get("cars", []):
+		print(f"Car {c['id']} — Driver: {c['driver']}")
+		fuel_pct = f" ({c['fuel_used_pct']}%)" if c.get('fuel_used_pct') is not None else ""
+		print(f"  Fuel used: {c['fuel_used_l']} L{fuel_pct}")
+		print(f"  Tires: {c['tire_before']} -> {c['tire_after']}")
+		before_eng = 'OK' if c.get('engine_before_ok') else 'PROBLEM'
+		after_eng = 'OK' if c.get('engine_after_ok') else 'PROBLEM'
+		print(f"  Engine: before={before_eng} after={after_eng}")
+		notes = c.get('damage_notes') or 'None'
+		print(f"  Damage notes: {notes}")
+		print("-" * 40)
 
 
 if __name__ == "__main__":
