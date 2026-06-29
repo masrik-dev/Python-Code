@@ -20,6 +20,7 @@ class Car:
     model: str
     team: str
     driver: Driver
+    top_performance: float
     lap_times: List[float] = field(default_factory=list)
 
     def add_lap_time(self, lap_time: float) -> None:
@@ -45,6 +46,24 @@ class Car:
         variance = sum((lap - mean) ** 2 for lap in self.lap_times) / len(self.lap_times)
         return 1.0 / (1.0 + variance)
 
+    @property
+    def performance_rating(self) -> float:
+        """Combine driver skill, consistency, aggression and car top performance."""
+        return (
+            0.35 * self.driver.skill
+            + 0.25 * self.driver.consistency
+            + 0.10 * self.driver.aggression
+            + 0.30 * self.top_performance
+        )
+
+    @property
+    def total_performance_score(self) -> float:
+        """Compute the overall performance score after the race."""
+        if not self.lap_times:
+            return self.performance_rating * 100.0
+        lap_efficiency = 80.0 / (self.average_lap + 0.1)
+        return self.performance_rating * 100.0 + lap_efficiency * 10.0
+
 
 @dataclass
 class RaceResult:
@@ -58,7 +77,7 @@ class RaceResult:
         print(f"Race {self.race_number} Results")
         print("=" * 58)
         print(
-            f"{'Pos':<4}{'Driver':<15}{'Team':<12}{'Model':<12}{'Total(s)':<10}{'Avg(s)':<10}{'Best(s)':<10}{'Cons':<6}"
+            f"{'Pos':<4}{'Driver':<15}{'Team':<12}{'Model':<12}{'Total(s)':<10}{'Avg(s)':<10}{'Best(s)':<10}{'Perf':<8}"
         )
         for position, car in enumerate(self.sorted_by_total(), start=1):
             print(
@@ -69,9 +88,9 @@ class RaceResult:
                 f"{car.total_time:<10.3f}"
                 f"{car.average_lap:<10.3f}"
                 f"{car.best_lap:<10.3f}"
-                f"{car.consistency_score:<6.3f}"
+                f"{car.total_performance_score:<8.2f}"
             )
-        print("\nDriver performance details:")
+        print("\nDriver and car performance details:")
         for car in self.sorted_by_total():
             print(
                 f"- {car.driver.name} ({car.team} {car.model}): skill={car.driver.skill:.2f}, "
@@ -85,14 +104,7 @@ class RaceSimulator:
         self.random = random.Random(seed)
 
     def generate_grid(self) -> List[Car]:
-        driver_profiles = [
-            Driver(name="Ava", skill=0.92, consistency=0.88, aggression=0.65),
-            Driver(name="Leo", skill=0.84, consistency=0.93, aggression=0.55),
-            Driver(name="Mia", skill=0.78, consistency=0.80, aggression=0.75),
-            Driver(name="Noah", skill=0.88, consistency=0.82, aggression=0.70),
-            Driver(name="Zoe", skill=0.81, consistency=0.90, aggression=0.60),
-        ]
-
+        driver_names = ["Ava", "Leo", "Mia", "Noah", "Zoe"]
         car_specs = [
             ("Falcon GT", "Red Arrow"),
             ("Stealth R", "Blue Horizon"),
@@ -101,7 +113,15 @@ class RaceSimulator:
             ("Comet S", "Black Stallion"),
         ]
 
-        return [Car(model=model, team=team, driver=driver) for driver, (model, team) in zip(driver_profiles, car_specs)]
+        grid: List[Car] = []
+        for name, (model, team) in zip(driver_names, car_specs):
+            skill = round(self.random.uniform(0.78, 0.95), 2)
+            consistency = round(self.random.uniform(0.80, 0.95), 2)
+            aggression = round(self.random.uniform(0.50, 0.82), 2)
+            top_performance = round(self.random.uniform(0.82, 0.98), 2)
+            driver = Driver(name=name, skill=skill, consistency=consistency, aggression=aggression)
+            grid.append(Car(model=model, team=team, driver=driver, top_performance=top_performance))
+        return grid
 
     def simulate_race(self, race_number: int, laps: int = 8, base_lap: float = 75.0) -> RaceResult:
         cars = self.generate_grid()
@@ -114,7 +134,8 @@ class RaceSimulator:
 
     def simulate_lap(self, car: Car, base_lap: float, lap_index: int) -> float:
         driver = car.driver
-        target = base_lap * driver.performance_modifier()
+        car_factor = 0.92 + 0.08 * car.top_performance
+        target = base_lap * driver.performance_modifier() * car_factor
 
         drift = self.random.gauss(0.0, 0.8 * (1.0 - driver.consistency))
         aggression_adjust = (driver.aggression - 0.5) * self.random.uniform(-1.2, 1.2)
