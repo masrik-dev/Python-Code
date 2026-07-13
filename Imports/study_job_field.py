@@ -47,21 +47,37 @@ def summarize_discrepancy(students):
     same_count = 0
     mismatch_count = 0
 
+    study_counts = {}
+    job_counts = {}
     mismatch_summary = {}
 
     for student in students:
-        if student["study_field"] == student["job_field"]:
+        study = student["study_field"]
+        job = student["job_field"]
+
+        study_counts[study] = study_counts.get(study, 0) + 1
+        job_counts[job] = job_counts.get(job, 0) + 1
+
+        if study == job:
             same_count += 1
         else:
             mismatch_count += 1
-            key = f"{student['study_field']} -> {student['job_field']}"
+            key = f"{study} -> {job}"
             mismatch_summary[key] = mismatch_summary.get(key, 0) + 1
 
-    print("Survey Summary: Study Field vs Potential Job Field")
+    print("Survey Report: Study Field vs Potential Job Field")
     print("=" * 50)
     print(f"Total students surveyed: {total}")
-    print(f"Same study and job field: {same_count} ({same_count / total * 100:.1f}%)")
-    print(f"Discrepancy found: {mismatch_count} ({mismatch_count / total * 100:.1f}%)")
+    print(f"Students with matching study and job field: {same_count} ({same_count / total * 100:.1f}%)")
+    print(f"Students with study-job discrepancy: {mismatch_count} ({mismatch_count / total * 100:.1f}%)")
+
+    print("\nMost common study fields:")
+    for field, count in sorted(study_counts.items(), key=lambda item: item[1], reverse=True)[:5]:
+        print(f"- {field}: {count}")
+
+    print("\nMost common potential job fields:")
+    for field, count in sorted(job_counts.items(), key=lambda item: item[1], reverse=True)[:5]:
+        print(f"- {field}: {count}")
 
     print("\nTop study-to-job mismatches:")
     for pair, count in sorted(mismatch_summary.items(), key=lambda item: item[1], reverse=True)[:10]:
