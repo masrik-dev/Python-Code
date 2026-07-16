@@ -34,19 +34,23 @@ def simulate_tournament():
         "Group B": ["Spain", "England", "Netherlands", "Portugal"],
     }
 
-    group_winners = []
+    qualified_teams = []
     for group_name, members in groups.items():
-        winner = max(members, key=team_rating)
-        group_winners.append(winner)
-        print(f"{group_name}: {winner} is predicted to win the group")
+        ranked_teams = sorted(members, key=team_rating, reverse=True)
+        winner = ranked_teams[0]
+        runner_up = ranked_teams[1]
+        qualified_teams.extend([winner, runner_up])
+        print(f"{group_name}: {winner} and {runner_up} qualify")
 
-    semifinal_1 = predict_match(group_winners[0], group_winners[1])
-    semifinal_2 = predict_match(group_winners[1], group_winners[0])
+    semifinalists = sorted(qualified_teams, key=team_rating, reverse=True)[:4]
+
+    semifinal_1 = predict_match(semifinalists[0], semifinalists[1])
+    semifinal_2 = predict_match(semifinalists[2], semifinalists[3])
     final = predict_match(semifinal_1, semifinal_2)
 
     print("\nPredicted knockout results:")
-    print(f"Semi-final 1: {semifinal_1}")
-    print(f"Semi-final 2: {semifinal_2}")
+    print(f"Semi-final 1: {semifinalists[0]} vs {semifinalists[1]}")
+    print(f"Semi-final 2: {semifinalists[2]} vs {semifinalists[3]}")
     print(f"Predicted World Cup winner: {final}")
 
 
