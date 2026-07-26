@@ -127,13 +127,13 @@ def compare_two(a: SugarProduct, b: SugarProduct) -> None:
     print(f"B: {b}\n")
 
     if a.price_per_kg == b.price_per_kg:
-        print(f"• Price: Tie ({a.price_per_kg:.2f} EUR/kg)")
+        print(f"* Price: Tie ({a.price_per_kg:.2f} EUR/kg)")
     else:
         cheaper = a if a.price_per_kg < b.price_per_kg else b
         dearer = b if cheaper is a else a
         diff = abs(a.price_per_kg - b.price_per_kg)
         print(
-            f"• Cheaper: {cheaper.label} "
+            f"* Cheaper: {cheaper.label} "
             f"({cheaper.price_per_kg:.2f} vs {dearer.price_per_kg:.2f} EUR/kg, "
             f"saves {diff:.2f} EUR/kg)"
         )
@@ -225,7 +225,7 @@ def city_cost_summary(catalog: list[SugarProduct]) -> None:
 if __name__ == "__main__":
     catalog = build_sample_catalog()
 
-    print("Sugar price comparison — Top 10 European cities")
+    print("Sugar price comparison - Top 10 European cities")
     print("=" * 52)
     print(f"Cities: {', '.join(TOP_10_CITIES)}")
     print(f"Types:  {', '.join(SUGAR_TYPES)}")
@@ -251,7 +251,7 @@ if __name__ == "__main__":
     # Cheapest white sugar brand per city
     print("\n=== CHEAPEST WHITE GRANULATED BRAND PER CITY ===\n")
     for city, winner in cheapest_by_city(catalog, "White granulated").items():
-        print(f"{city:<18} → {winner.brand} @ {winner.price_per_kg:.2f} EUR/kg")
+        print(f"{city:<18} -> {winner.brand} @ {winner.price_per_kg:.2f} EUR/kg")
 
     type_price_matrix(catalog)
     brand_ranking(catalog, "Paris")
