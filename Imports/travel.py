@@ -33,9 +33,48 @@ destinations = [
     },
 ]
 
-print("Top 5 Travel Destinations")
-print("=" * 40)
+futuristic_cities = [
+    {
+        "rank": 1,
+        "place": "Dubai",
+        "country": "UAE",
+        "highlight": "Burj Khalifa, smart city tech, and desert futurism",
+    },
+    {
+        "rank": 2,
+        "place": "Singapore",
+        "country": "Singapore",
+        "highlight": "Gardens by the Bay, Marina Bay Sands, and smart urban design",
+    },
+    {
+        "rank": 3,
+        "place": "Seoul",
+        "country": "South Korea",
+        "highlight": "High-tech districts, K-culture, and digital city life",
+    },
+    {
+        "rank": 4,
+        "place": "Shanghai",
+        "country": "China",
+        "highlight": "Pudong skyline, bullet trains, and futuristic architecture",
+    },
+    {
+        "rank": 5,
+        "place": "Tokyo",
+        "country": "Japan",
+        "highlight": "Neon districts, robotics, and cutting-edge transit",
+    },
+]
 
-for d in destinations:
-    print(f"\n#{d['rank']} {d['place']}, {d['country']}")
-    print(f"   Why visit: {d['highlight']}")
+
+def show_destinations(title, places):
+    print(title)
+    print("=" * 40)
+    for d in places:
+        print(f"\n#{d['rank']} {d['place']}, {d['country']}")
+        print(f"   Why visit: {d['highlight']}")
+
+
+show_destinations("Top 5 Travel Destinations", destinations)
+print("\n")
+show_destinations("Top 5 Futuristic City Destinations", futuristic_cities)
