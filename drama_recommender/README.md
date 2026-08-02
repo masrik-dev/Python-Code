@@ -1,13 +1,19 @@
 # Drama Recommender
 
-This folder contains an automated Chinese short drama recommendation script that fetches:
+This folder contains an automated Chinese short drama recommendation project that fetches:
 
 - Top 10 popular Chinese short dramas with English dub from YouTube
+- A web UI for browsing recommendations in a card layout
 
 ## Files
 
-- `main.py` - main script that scrapes YouTube search results and prints recommendations.
-- `requirements.txt` - required Python dependency for the script.
+- `core.py` - scraping and ranking logic
+- `main.py` - CLI script (terminal output)
+- `app.py` - web frontend server (Flask)
+- `templates/index.html` - main UI page
+- `static/css/style.css` - UI styling
+- `static/js/app.js` - frontend logic
+- `requirements.txt` - Python dependencies
 
 ## Setup
 
@@ -20,13 +26,23 @@ This folder contains an automated Chinese short drama recommendation script that
    python -m pip install -r requirements.txt
    ```
 
-## Run
+## Run CLI
 
 ```powershell
 python main.py
 ```
 
-The script runs automatically and prints the top 10 recommendations.
+## Run Web UI
+
+```powershell
+python app.py
+```
+
+Then open in your browser:
+
+```
+http://127.0.0.1:5000
+```
 
 You can also run the wrapper in Imports:
 
@@ -34,8 +50,16 @@ You can also run the wrapper in Imports:
 python Imports/drama_recommendation.py
 ```
 
+## Web UI features
+
+- Card layout with rank, thumbnail, channel, and views
+- Live refresh button
+- Loading panel while YouTube is fetched
+- 5-minute cache to reduce repeated scraping
+- Offline fallback list if YouTube is unreachable
+
 ## Notes
 
-- The script shows progress while fetching so it does not look frozen.
+- The script shows progress in CLI mode while fetching.
 - It retries on slow network or temporary YouTube errors.
-- If YouTube is unreachable, it prints an offline fallback recommendation list.
+- Links open directly on YouTube.

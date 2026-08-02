@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Drama Recommender | Chinese Short Dramas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <p class="eyebrow">YouTube curated picks</p>
+      <h1>Chinese Short Drama<br><span>English Dub</span></h1>
+      <p class="subtitle">
+        Top 10 popular mini dramas scraped live from YouTube and ranked by views.
+      </p>
+      <div class="hero-actions">
+        <button id="refresh-btn" class="btn btn-primary" type="button">
+          Refresh recommendations
+        </button>
+        <span id="status-badge" class="status-badge">Loading...</span>
+      </div>
+      <p id="meta-line" class="meta-line"></p>
+    </div>
+  </header>
+
+  <main class="container">
+    <section id="loading" class="loading-panel">
+      <div class="spinner"></div>
+      <p>Fetching dramas from YouTube...</p>
+      <small>This may take 10-30 seconds on slow networks.</small>
+    </section>
+
+    <section id="error-panel" class="error-panel hidden">
+      <h2>Could not load recommendations</h2>
+      <p id="error-message"></p>
+      <button id="retry-btn" class="btn btn-secondary" type="button">Try again</button>
+    </section>
+
+    <section id="cards" class="cards-grid"></section>
+  </main>
+
+  <footer class="footer">
+    <p>Drama Recommender &mdash; for educational use. Links open on YouTube.</p>
+  </footer>
+
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
