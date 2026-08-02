@@ -34,6 +34,14 @@ def _cache_valid() -> bool:
     return age < CACHE_SECONDS
 
 
+def warm_cache(items: list[dict[str, Any]], source: str, is_fallback: bool) -> None:
+    """Store results so the web UI loads instantly after CLI fetch."""
+    _cache["items"] = items
+    _cache["source"] = source
+    _cache["is_fallback"] = is_fallback
+    _cache["fetched_at"] = datetime.datetime.utcnow()
+
+
 def _fetch_recommendations(force: bool = False) -> dict[str, Any]:
     if not force and _cache_valid():
         return {

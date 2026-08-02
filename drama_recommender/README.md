@@ -26,7 +26,21 @@ This folder contains an automated Chinese short drama recommendation project tha
    python -m pip install -r requirements.txt
    ```
 
-## Run CLI
+## Run everything (recommended)
+
+One command does install + terminal results + web UI + browser:
+
+```powershell
+python run.py
+```
+
+On Windows you can also double-click:
+
+```
+run.bat
+```
+
+## Run CLI only
 
 ```powershell
 python main.py
