@@ -3,24 +3,28 @@ def worker_pay(hours, rate):
     return hours * rate
 
 
+import random
+
+
 def department_amounts(department_name, worker_count=5):
-    """Collect worker hours/rates and revenue, then calculate salary and profit."""
+    """Simulate medium-company revenue and worker pay for a department."""
     print(f"\n--- {department_name} Department ---")
-    revenue = float(input(f"Enter total revenue for {department_name}: "))
+    revenue = random.uniform(1_000_000, 2_500_000)
     workers = []
 
     for i in range(1, worker_count + 1):
-        hours = float(input(f"Worker {i} hours worked: "))
-        rate = float(input(f"Worker {i} hourly rate: "))
+        hours = random.uniform(160, 220)
+        rate = random.uniform(35, 80)
         pay = worker_pay(hours, rate)
         workers.append(pay)
-        print(f"  Worker {i} pay: ${pay:.2f}")
+        print(f"  Worker {i} pay: ${pay:,.2f} ({hours:.1f}h @ ${rate:.2f}/h)")
 
     total_salary = sum(workers)
     net_earnings = revenue - total_salary
 
-    print(f"{department_name} total salary cost: ${total_salary:.2f}")
-    print(f"{department_name} net earnings after salaries: ${net_earnings:.2f}")
+    print(f"{department_name} revenue: ${revenue:,.2f}")
+    print(f"{department_name} total salary cost: ${total_salary:,.2f}")
+    print(f"{department_name} net earnings after salaries: ${net_earnings:,.2f}")
 
     return {
         "department": department_name,
